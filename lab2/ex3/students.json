@@ -1,0 +1,51 @@
+{
+  "success": true,
+  "message": "Get list success",
+  "data": [
+    {
+      "id": 1,
+      "name": "Phạm Đức Minh Hiếu",
+      "age": 20
+    },
+    {
+      "id": 2,
+      "name": "Vương Thanh Trần Phú",
+      "age": 21
+    },
+    {
+      "id": 3,
+      "name": "Phan Hoàng Phú",
+      "age": 21
+    },
+    {
+      "id": 4,
+      "name": "Võ Trọng Tình",
+      "age": 21
+    },
+    {
+      "id": 5,
+      "name": "Lâm Trường Phú",
+      "age": 21
+    },
+    {
+      "id": 6,
+      "name": "Hoàng Phú Lộc",
+      "age": 21
+    },
+    {
+      "id": 7,
+      "name": "Nguyễn Thành Nhật Tân",
+      "age": 21
+    },
+    {
+      "id": 8,
+      "name": "Nguyễn Thị Hồng Gấm",
+      "age": 21
+    },
+    {
+      "id": 9,
+      "name": "Phùng Thị Thủy Tiên",
+      "age": 21
+    }
+  ]
+}

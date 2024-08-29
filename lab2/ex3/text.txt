@@ -1,0 +1,8 @@
+GET ALL: GET http://localhost/students
+GET STUDENT BY ID: GET http://localhost/students/{id} e.g: 1, 2, 3
+ADD NEW STUDENT: POST http://localhost/students/
+    Body: 
+        {
+            "name": "Vương Thanh Huy",
+            "age": 21
+        }
