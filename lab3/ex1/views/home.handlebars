@@ -1,0 +1,31 @@
+<div class="container mt-4">
+    {{#if user}}
+        <h1>Danh sách sản phẩm</h1>
+        <a href="/add" class="btn btn-primary mb-3">Thêm sản phẩm</a>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td>{{name}}</td>
+                        <td>{{formatPrice price}}</td>
+                        <td>
+                            <a href="/edit/{{id}}" class="btn btn-warning btn-sm">Chỉnh sửa</a>
+                            <a href="/delete/{{id}}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">Xóa</a>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{else}}
+        <p>Vui lòng <a href="/login">đăng nhập</a> để xem danh sách sản phẩm.</p>
+    {{/if}}
+</div>
