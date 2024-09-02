@@ -8,6 +8,7 @@ import com.example.demo.repository.ProductRepository;
 import com.example.demo.request.AddProductRequest;
 import com.example.demo.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +17,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService{
-    private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
     @Override
     public Product addProduct(AddProductRequest request) {
         // check category is found in the database
@@ -79,7 +82,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> getProductByCategory(String category) {
+    public List<Product> getProductByCategory(Category category) {
         return productRepository.findByCategory(category);
     }
 

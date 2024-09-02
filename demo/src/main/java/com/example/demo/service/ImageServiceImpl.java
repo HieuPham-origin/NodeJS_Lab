@@ -19,8 +19,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService{
-    private ImageRepository imageRepository;
-    private final ProductService productService;
+    @Autowired
+    private  ImageRepository imageRepository;
+    @Autowired
+    private ProductService productService;
     @Override
     public Image getImageById(Long id) {
         return imageRepository.findById(id)

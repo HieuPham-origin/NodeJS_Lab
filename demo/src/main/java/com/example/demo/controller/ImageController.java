@@ -6,6 +6,7 @@ import com.example.demo.model.Image;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -21,10 +22,11 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
-@RequestMapping("{api.prefix}/images")
+@RequestMapping("${api.prefix}/images")
 @RequiredArgsConstructor
 public class ImageController {
-    private final ImageService imageService;
+    @Autowired
+    private ImageService imageService;
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse> saveImages(
             @RequestParam

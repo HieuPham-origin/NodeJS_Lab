@@ -1,9 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Category;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public interface CategoryService {
     Category getCategoryById(Long id);
     Category getCategoryByName(String name);

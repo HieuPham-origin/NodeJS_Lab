@@ -5,6 +5,7 @@ import com.example.demo.model.Category;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +15,11 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestController
-@RequestMapping("{api.prefix}/categories")
+@RequestMapping("${api.prefix}/categories")
 @RequiredArgsConstructor
 public class CategoryController {
-    private final CategoryService categoryService;
+    @Autowired
+    private CategoryService categoryService;
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllCategories(){
         try {
