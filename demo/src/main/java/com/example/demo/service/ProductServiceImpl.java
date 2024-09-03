@@ -8,6 +8,7 @@ import com.example.demo.repository.ProductRepository;
 import com.example.demo.request.AddProductRequest;
 import com.example.demo.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ public class ProductServiceImpl implements ProductService{
     private ProductRepository productRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
     @Override
     public Product addProduct(AddProductRequest request) {
         // check category is found in the database
