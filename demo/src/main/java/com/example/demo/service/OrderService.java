@@ -1,12 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.OrderDto;
 import com.example.demo.model.Order;
 
 import java.util.List;
 
 public interface OrderService {
     Order placeOrder(Long userId);
-    Order getOrder(Long orderId);
+    OrderDto getOrder(Long orderId);
 
-    List<Order> getUserOrders(Long userId);
+    List<OrderDto> getUserOrders(Long userId);
+
+    OrderDto convertToDto(Order order);
 }

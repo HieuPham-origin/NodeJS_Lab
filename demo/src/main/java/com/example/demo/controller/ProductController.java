@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ProductDto;
 import com.example.demo.model.Product;
 import com.example.demo.request.AddProductRequest;
 import com.example.demo.request.ProductUpdateRequest;
@@ -21,12 +22,14 @@ public class ProductController {
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllProducts(){
         List<Product> products = productService.getAllProduct();
-        return ResponseEntity.ok(new ApiResponse("get all product success", products));
+        List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
+        return ResponseEntity.ok(new ApiResponse("get all product success", convertedProducts));
     }
     @GetMapping("/product/{id}")
     public ResponseEntity<ApiResponse> getProductById(@PathVariable long id){
         Product product = productService.getProductById(id);
-        return ResponseEntity.ok(new ApiResponse("get product " + id + " success", product));
+        ProductDto productDto = productService.convertToDto(product);
+        return ResponseEntity.ok(new ApiResponse("get product " + id + " success", productDto));
     }
 
     @PostMapping("/add")

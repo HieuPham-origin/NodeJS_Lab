@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.UserDto;
 import com.example.demo.exception.AlreadyExistException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.User;
@@ -7,7 +8,11 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.request.CreateUserRequest;
 import com.example.demo.request.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +21,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
+    private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("user not found"));
@@ -28,7 +35,7 @@ public class UserServiceImpl implements UserService{
                 .map(req -> {
                     User user = new User();
                     user.setEmail(req.getEmail());
-                    user.setPassword(req.getPassword());
+                    user.setPassword(passwordEncoder.encode(req.getPassword()));
                     user.setFirstName(req.getFirstName());
                     user.setLastName(req.getLastName());
                     return userRepository.save(user);
@@ -51,5 +58,17 @@ public class UserServiceImpl implements UserService{
                     throw new ResourceNotFoundException("user not found");
                 }
         );
+    }
+
+    @Override
+    public UserDto convertUserToDto(User user){
+        return modelMapper.map(user, UserDto.class);
+    }
+
+    @Override
+    public User getAuthenticationUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return userRepository.findByEmail(email);
     }
 }
