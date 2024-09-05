@@ -27,7 +27,7 @@ public class User {
     private Cart cart;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders;
+    private List<Orders> orders;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade =
             {CascadeType.ALL,  CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST})

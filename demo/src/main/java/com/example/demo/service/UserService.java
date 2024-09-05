@@ -8,6 +8,9 @@ import com.example.demo.request.UserUpdateRequest;
 public interface UserService {
     User getUserById(Long userId);
     User createUser(CreateUserRequest request);
+
+    User signUp(CreateUserRequest request);
+
     User updateUser(UserUpdateRequest request, Long userId);
     void deleteUser(Long userId);
 

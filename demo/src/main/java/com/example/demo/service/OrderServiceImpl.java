@@ -4,7 +4,7 @@ import com.example.demo.dto.OrderDto;
 import com.example.demo.enums.OrderStatus;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Cart;
-import com.example.demo.model.Order;
+import com.example.demo.model.Orders;
 import com.example.demo.model.OrderItem;
 import com.example.demo.model.Product;
 import com.example.demo.repository.OrderRepository;
@@ -30,26 +30,26 @@ public class OrderServiceImpl implements OrderService{
     private CartService cartService;
     private final ModelMapper modelMapper;
     @Override
-    public Order placeOrder(Long userId) {
+    public Orders placeOrder(Long userId) {
         Cart cart = cartService.getCartByUserId(userId);
-        Order order = createOrder(cart);
+        Orders order = createOrder(cart);
         List<OrderItem> orderItemList = createOrderItem(order, cart);
         order.setOrderItems(new HashSet<>(orderItemList));
         order.setTotalAmount(calculatePrice(orderItemList));
-        Order savedOrder = orderRepository.save(order);
+        Orders savedOrder = orderRepository.save(order);
         cartService.clearCart(cart.getId());
         return savedOrder;
     }
 
-    private Order createOrder(Cart cart){
-        Order order = new Order();
+    private Orders createOrder(Cart cart){
+        Orders order = new Orders();
         order.setUser(cart.getUser());
         order.setOrderStatus(OrderStatus.PENDING);
         order.setOrderDate(LocalDate.now());
         return order;
     }
 
-    private List<OrderItem> createOrderItem(Order order, Cart cart){
+    private List<OrderItem> createOrderItem(Orders order, Cart cart){
         return cart.getItems().stream().map(cartItem ->{
             Product product = cartItem.getProduct();
             product.setInventory(product.getInventory()-cartItem.getQuantity());
@@ -77,11 +77,11 @@ public class OrderServiceImpl implements OrderService{
     }
     @Override
     public List<OrderDto> getUserOrders(Long userId){
-        List<Order> orders = orderRepository.findByUserId(userId);
+        List<Orders> orders = orderRepository.findByUserId(userId);
         return orders.stream().map(this::convertToDto).toList();
     }
     @Override
-    public OrderDto convertToDto(Order order){
+    public OrderDto convertToDto(Orders order){
         return modelMapper.map(order, OrderDto.class);
     }
 }

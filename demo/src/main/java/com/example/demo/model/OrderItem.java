@@ -19,12 +19,12 @@ public class OrderItem {
     private BigDecimal price;
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Orders order;
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public OrderItem(Order order, Product product, int quantity, BigDecimal price) {
+    public OrderItem(Orders order, Product product, int quantity, BigDecimal price) {
         this.order = order;
         this.product = product;
         this.quantity = quantity;

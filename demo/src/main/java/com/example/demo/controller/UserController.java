@@ -18,8 +18,8 @@ public class UserController {
     @Autowired
     private UserService userService;
     @GetMapping("{userId}")
-    public ResponseEntity<ApiResponse> getUserById(@PathVariable Long id){
-        User user = userService.getUserById(id);
+    public ResponseEntity<ApiResponse> getUserById(@PathVariable Long userId){
+        User user = userService.getUserById(userId);
         return ResponseEntity.ok(new ApiResponse("get user success", user));
     }
     @PostMapping("/add")
@@ -27,6 +27,12 @@ public class UserController {
         User user = userService.createUser(request);
         UserDto userDto = userService.convertUserToDto(user);
         return ResponseEntity.ok(new ApiResponse("create user success", userDto));
+    }
+    @PostMapping("/signup")
+    public ResponseEntity<ApiResponse> signUp(@RequestBody CreateUserRequest request) {
+        User user = userService.signUp(request);
+        UserDto userDto = userService.convertUserToDto(user);
+        return ResponseEntity.ok(new ApiResponse("sign-up success", userDto));
     }
     @PutMapping("/{userId}/update")
     public ResponseEntity<ApiResponse> updateUser(@RequestBody UserUpdateRequest request,@PathVariable Long userId){

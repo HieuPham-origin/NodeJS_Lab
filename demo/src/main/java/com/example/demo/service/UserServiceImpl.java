@@ -3,7 +3,9 @@ package com.example.demo.service;
 import com.example.demo.dto.UserDto;
 import com.example.demo.exception.AlreadyExistException;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.request.CreateUserRequest;
 import com.example.demo.request.UserUpdateRequest;
@@ -21,6 +23,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     @Override
@@ -38,8 +42,35 @@ public class UserServiceImpl implements UserService{
                     user.setPassword(passwordEncoder.encode(req.getPassword()));
                     user.setFirstName(req.getFirstName());
                     user.setLastName(req.getLastName());
+
+                    // assign roles
+                    Role adminRole = roleRepository.findByName("ADMIN").orElseThrow(() -> new ResourceNotFoundException("Role ADMIN not found"));
+                    Role userRole = roleRepository.findByName("USER").orElseThrow(() -> new ResourceNotFoundException("Role USER not found"));
+                    user.getRoles().add(adminRole);
+                    user.getRoles().add(userRole);
+
                     return userRepository.save(user);
-                }).orElseThrow(()->new AlreadyExistException(request.getEmail()+"already exist"));
+                })
+                .orElseThrow(() -> new AlreadyExistException(request.getEmail() + " already exists"));
+    }
+    @Override
+    public User signUp(CreateUserRequest request) {
+        return Optional.of(request)
+                .filter(user -> !userRepository.existsByEmail(request.getEmail()))
+                .map(req -> {
+                    User user = new User();
+                    user.setEmail(req.getEmail());
+                    user.setPassword(passwordEncoder.encode(req.getPassword()));
+                    user.setFirstName(req.getFirstName());
+                    user.setLastName(req.getLastName());
+
+                    // assign user role
+                    Role userRole = roleRepository.findByName("USER").orElseThrow(() -> new ResourceNotFoundException("Role USER not found"));
+                    user.getRoles().add(userRole);
+
+                    return userRepository.save(user);
+                })
+                .orElseThrow(() -> new AlreadyExistException(request.getEmail() + " already exists"));
     }
 
     @Override

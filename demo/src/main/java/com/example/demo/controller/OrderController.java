@@ -1,11 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.OrderDto;
-import com.example.demo.model.Order;
+import com.example.demo.model.Orders;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +19,9 @@ public class OrderController {
     private OrderService orderService;
     @PostMapping("/order")
     public ResponseEntity<ApiResponse> createOrder(@RequestParam Long userId){
-        Order order = orderService.placeOrder(userId);
+        Orders order = orderService.placeOrder(userId);
         OrderDto orderDto = orderService.convertToDto(order);
-        return ResponseEntity.ok(new ApiResponse("success order", order));
+        return ResponseEntity.ok(new ApiResponse("success order", orderDto));
     }
     @GetMapping("/order/{orderId}")
     public ResponseEntity<ApiResponse> getOrderById(@PathVariable Long orderId){
